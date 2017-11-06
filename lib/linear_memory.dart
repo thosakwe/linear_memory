@@ -1,13 +1,27 @@
+import 'dart:async';
+
 /// Represents a linear memory unit, and manages it efficiently.
 class LinearMemory<T> {
   final int size;
   final List<_MemoryBlockImpl<T>> _blocks = [];
+  final StreamController<MemoryBlock<T>> _onRelease = new StreamController();
   T _defaultValue;
 
   LinearMemory(this.size, {T defaultValue}) : _defaultValue = defaultValue;
 
+  /// Fires whenever a memory block is released.
+  Stream<MemoryBlock<T>> get onRelease => _onRelease.stream;
+
+  void _release(MemoryBlock<T> block) {
+    _blocks.remove(block);
+    _onRelease.add(block);
+  }
+
+  Future close() => _onRelease.close();
+
   void clear() {
-    _blocks.clear();
+    for (var block in _blocks.toList())
+      block.release();
   }
 
   /// Locates the first free memory block of the given [size].
@@ -124,7 +138,7 @@ class _MemoryBlockImpl<T> implements MemoryBlock<T> {
 
   @override
   void release() {
-    memory._blocks.remove(this);
+    memory._release(this);
   }
 
   @override
