@@ -4,7 +4,7 @@ import 'dart:async';
 class LinearMemory<T> {
   final int size;
   final List<_MemoryBlockImpl<T>> _blocks = [];
-  final StreamController<MemoryBlock<T>> _onRelease = new StreamController();
+  final StreamController<MemoryBlock<T>> _onRelease = new StreamController(sync: true);
   T _defaultValue;
 
   LinearMemory(this.size, {T defaultValue}) : _defaultValue = defaultValue;
