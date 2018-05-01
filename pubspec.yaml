@@ -4,6 +4,6 @@ description: Efficiently manages distribution of linear memory. Useful for compi
 author: Tobe O <thosakwe@gmail.com>
 homepage: https://github.com/thosakwe/linear_memory
 environment:
-  sdk: ">=1.19.0"
+  sdk: ">=1.19.0 <=3.0.0"
 dev_dependencies:
   test: ^0.12.0
