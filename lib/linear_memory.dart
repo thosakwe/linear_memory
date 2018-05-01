@@ -2,12 +2,14 @@ import 'dart:async';
 
 /// Represents a linear memory unit, and manages it efficiently.
 class LinearMemory<T> {
-  final int size;
   final List<_MemoryBlockImpl<T>> _blocks = [];
   final StreamController<MemoryBlock<T>> _onRelease = new StreamController(sync: true);
   T _defaultValue;
+  int _size;
 
-  LinearMemory(this.size, {T defaultValue}) : _defaultValue = defaultValue;
+  LinearMemory(this._size, {T defaultValue}) : _defaultValue = defaultValue;
+
+  int get size => _size;
 
   /// Fires whenever a memory block is released.
   Stream<MemoryBlock<T>> get onRelease => _onRelease.stream;
@@ -79,7 +81,7 @@ class LinearMemory<T> {
   /// Copies this memory unit into a new, larger one.
   LinearMemory<T> grow(int newSize) {
     if (newSize < size) return this;
-    return new LinearMemory(newSize).._blocks.addAll(_blocks);
+    return this.._size = newSize;
   }
 
   /// Moves all blocks as far left as possible, getting rid of empty gaps in memory.

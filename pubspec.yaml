@@ -1,5 +1,5 @@
 name: linear_memory
-version: 1.0.1
+version: 1.0.2
 description: Efficiently manages distribution of linear memory. Useful for compilers, etc.
 author: Tobe O <thosakwe@gmail.com>
 homepage: https://github.com/thosakwe/linear_memory
